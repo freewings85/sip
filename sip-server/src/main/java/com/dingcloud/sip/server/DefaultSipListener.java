@@ -1,6 +1,6 @@
 package com.dingcloud.sip.server;
 
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
 
 import javax.sip.DialogTerminatedEvent;
 import javax.sip.IOExceptionEvent;
@@ -23,9 +23,11 @@ public class DefaultSipListener implements SipListener {
 	private static final Logger logger = LoggerFactory.getLogger(DefaultSipListener.class);
 	// processor factory to build processor
 	private SipProcessorFactory processorFactory;
-	private ThreadPoolExecutor processThreadPool;
+	private ExecutorService processThreadPool;
 
-	public DefaultSipListener() {
+	public DefaultSipListener(SipProcessorFactory factory, ExecutorService executor) {
+		this.processorFactory = factory;
+		this.processThreadPool = executor;
 	}
 
 	public void processRequest(RequestEvent requestEvent) {
